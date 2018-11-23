@@ -116,6 +116,7 @@ class Route {
         switch (action) {
             case 1: {
                 while (this.seconds[this.index + 1] <= time) {
+                    this.mapLines[this.index].addTo(map);
                     this.index++;
                     count++;
                 }
@@ -125,8 +126,8 @@ class Route {
             }
             case 2: {
                 while (this.seconds[this.index] > time) {
-                    //map.removeLayer(this.mapLines[this.index--]);
                     this.index--;
+                    map.removeLayer(this.mapLines[this.index]);
                     count++;
                 }
                 if (count >= 1) updated = true;
@@ -177,7 +178,7 @@ var startMarker, finishMarker;
 var playing = false;
 
 var playingInterval;
-var playbackSpeed = 5;
+var playbackSpeed = 60;
 
 $(document).ready(function () {
 
@@ -220,9 +221,6 @@ $(document).ready(function () {
     document.getElementById("uploadFile").addEventListener('change', function () {
         var fr = new FileReader();
         fr.onload = function () {
-
-
-
             route = new Route(this.result);
             var lats = route.getLats();
             var lons = route.getLons();
@@ -248,7 +246,7 @@ $(document).ready(function () {
 
                 var firstpolyline = new L.Polyline(pointList, {
                     color: 'grey',
-                    weight: 3,
+                    weight: 5,
                     opacity: 1,
                     smoothFactor: 1
                 });
@@ -261,6 +259,7 @@ $(document).ready(function () {
             map.setView([lats[0], lons[0]], 15);
 
             // $('#progressSlider').slider("option", "max", route.getSessionTime());  
+            slider.value = 0;
             slider.max = route.getSessionTime();
         }
         fr.readAsText(this.files[0]);
@@ -269,16 +268,19 @@ $(document).ready(function () {
     document.getElementById("playButton").addEventListener('click', function () {
         playing = !playing;
         if (playing) {
+            map.dragging.disable();
             playingInterval = setInterval(function () {
                 slider.value = parseInt(slider.value) + 1;
                 slider.onchange();
                 if (parseInt(slider.value) >= parseInt(slider.max)) {
+                    map.dragging.enable();
                     clearInterval(playingInterval);
                     playingInterval = null;
                     playing = false;
                 }
             }, 1000 / playbackSpeed);
         } else {
+            map.dragging.enable();
             clearInterval(playingInterval);
             playingInterval = null;
             playing = false;
