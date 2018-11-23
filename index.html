@@ -1,0 +1,113 @@
+<html>
+
+<head>
+    <title>A Leaflet map!</title>
+
+    <script src="jquery.js"></script>
+    <script src="jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+        crossorigin=""></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+
+    <div id="container">
+
+        <header>
+            <h1>SOME LOGO</h1>
+            <input type="button" id="playButton">
+            <input type="button" id="revButton">
+            <div class="upload-btn-wrapper">
+                <button id="uploadFileButton" class="btn">UPLOAD A FILE</button>
+                <input id="uploadFile" type="file" name="myfile" />
+            </div>
+        </header>
+
+        <section>
+            <div id="mapid"></div>
+        </section>
+
+        <aside>
+            <div id="asideContainer">
+                <div class="tab">
+                    <button id="statusTab" class="tablinks" onclick="swapTab(event, 'STATUS')"><strong>STATUS</strong></button>
+                    <button id="summaryTab" class="tablinks" onclick="swapTab(event, 'SUMMARY')"><strong>SUMMARY</strong></button>
+                </div>
+
+                <div id="STATUS" class="tabcontent">
+                    <h2 id="timeLabel">00:00:00</h2>
+
+                    <div class="rowContainer">
+                        <div class="gridContainer iconContainer">
+                            <img class="gridIcon" src="images/heartrate.png">
+                        </div>
+                        <div class="gridContainer valueContainer">
+                            <p id="heartRateLabel" class="gridItem">85</p>
+                        </div>
+                        <div class="gridContainer unitContainer">
+                            <p class="gridItem">BPM</p>
+                        </div>
+                    </div>
+
+                    <div class="rowContainer">
+                        <div class="gridContainer iconContainer">
+                            <img class="gridIcon" src="images/speed.png">
+                        </div>
+                        <div class="gridContainer valueContainer">
+                            <p id="speedLabel" class="gridItem">10</p>
+                        </div>
+                        <div class="gridContainer unitContainer">
+                            <p class="gridItem">KM/H</p>
+                        </div>
+                    </div>
+
+                    <div class="rowContainer">
+                        <div class="gridContainer iconContainer">
+                            <img class="gridIcon" src="images/pace.png">
+                        </div>
+                        <div class="gridContainer valueContainer">
+                            <p id="paceLabel" class="gridItem">06:00</p>
+                        </div>
+                        <div class="gridContainer unitContainer">
+                            <p class="gridItem">m/KM</p>
+                        </div>
+                    </div>
+
+                    <div class="rowContainer">
+                        <div class="gridContainer iconContainer">
+                            <img class="gridIcon" src="images/elevation.png">
+                        </div>
+                        <div class="gridContainer valueContainer">
+                            <p id="inclineLabel" class="gridItem">5</p>
+                        </div>
+                        <div class="gridContainer unitContainer">
+                            <p class="gridItem">&deg</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="SUMMARY" class="tabcontent">
+                    Some info
+                </div>
+            </div>
+
+
+        </aside>
+
+        <div>
+            <div class="slideContainer">
+                <input class="slider" id="progressSlider" type="range" min="0" value="0">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
