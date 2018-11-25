@@ -18,6 +18,7 @@
 
     <div id="container">
 
+
         <header>
             <h1>SOME LOGO</h1>
             <input type="button" id="playButton">
@@ -31,6 +32,7 @@
         <section>
             <div id="mapid"></div>
         </section>
+
 
         <aside>
             <div id="asideContainer">
@@ -80,7 +82,7 @@
 
                     <div class="rowContainer">
                         <div class="gridContainer iconContainer">
-                            <img class="gridIcon" src="images/elevation.png">
+                            <img class="gridIcon" src="images/elevation.png" onclick="elvChart()">
                         </div>
                         <div class="gridContainer valueContainer">
                             <p id="inclineLabel" class="gridItem">5</p>
@@ -99,11 +101,33 @@
 
         </aside>
 
+
+</div>
+    <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+    </div>
         <div>
             <div class="slideContainer">
                 <input class="slider" id="progressSlider" type="range" min="0" value="0">
             </div>
         </div>
+    </div>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <p>Some text in the Modal..</p>
+        <span class="close">&times;</span>
+
     </div>
 
     <script src="script.js"></script>

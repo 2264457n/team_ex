@@ -33,6 +33,7 @@ class Route {
         this.times = Array.from(this.xmlDoc.getElementsByTagName('time')).map(x => extractTime(x.innerHTML)).slice(1);
         this.seconds = this.times.map(x => timeDifference(this.getStartTime(), x));
         this.heartRates = [];
+        this.elevations = Array.from(this.xmlDoc.getElementsByTagName('ele'));
 
         this.mapLines = [];
         this.distances = [];
@@ -49,6 +50,7 @@ class Route {
         console.log(this.times.length);
         console.log(this.seconds.length);
         console.log(this.xmlDoc);
+        console.log("The list of the original elevations array",this.elevations.length);
 
         this.initializeLines();
 
@@ -103,6 +105,10 @@ class Route {
 
     getCurrentLocation() {
         return [this.lats[this.index], this.lons[this.index]];
+    }
+
+    getElevations() {
+      return this.elevations;
     }
 
     updateIndex(time, map) {
@@ -228,6 +234,29 @@ $(document).ready(function () {
             var lons = route.getLons();
             var count = route.getCount();
 
+            var heartRates = route.get
+
+          var elv_points = [];
+          var elvs = route.getElevations();
+          sessionStorage.setItem('original_elevations_list', JSON.stringify(elvs));
+
+
+
+
+        // Put elevations into a proper format
+        for (var i = 0; i < elvs.length; i++) {
+
+            var tempElv = parseFloat(elvs[i].childNodes[0].nodeValue); // Parsing the array of XML element
+
+            elv_points.push({ y:tempElv});
+           /** console.log(elvs[i]); **/
+
+        }
+
+        sessionStorage.setItem('elvsPoints', JSON.stringify(elv_points));
+
+
+
             console.log(route.getStartTime() + " " + route.getFinishTime());
             console.log(route.getSessionTime());
 
@@ -287,3 +316,65 @@ $(document).ready(function () {
 
     document.getElementById("statusTab").click();
 });
+
+function prepareGraph(xmlArray){
+      var data = [];
+
+        // Put elements into a proper format needed for the graph
+        for (var i = 0; i < xmlArray.length; i++) {
+            var tempElt = parseFloat(xmlArray[i].childNodes[0].nodeValue); // Parsing the array of XML elements
+
+            data.push({ y:tempElt});
+
+
+        }
+
+        return data;
+}
+function elvChart(){
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    // btn.onclick = function() {
+        modal.style.display = "block";
+    // }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    var data = JSON.parse(sessionStorage.getItem('elvsPoints'));
+    var name = "Elevations";
+    window.onload = createChart(name, data);
+
+		function createChart(chartName, data){
+		    var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: "Graph of " + chartName
+            },
+            axisY:{
+                includeZero: false
+            },
+            data: [{
+                type: "line",
+                dataPoints: data,
+            }]
+        });
+        chart.render();
+	}
+}
