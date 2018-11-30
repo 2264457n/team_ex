@@ -1,0 +1,13 @@
+:root{
+    --background: black;
+    --dark_red: rgb(165, 0, 0);
+    --red: rgb(200, 0, 0);
+    --unloaded_map: rgb(90, 90, 90);
+    --value_text: rgb(40, 40, 40);
+    --selected_tab: #ccc;
+    --hovered_tab: #ddd;
+    --unselected_tab: #f1f1f1;
+    --side_bar_mask: #33333333;
+    --selector: white;
+    --highlight_mask: #ffffff99;
+}

@@ -3,33 +3,38 @@
 <head>
     <title>A Leaflet map!</title>
 
-    <script src="jquery.js"></script>
-    <script src="jquery-ui.js"></script>
-
+    <script src="scripts/jquery.js"></script>
+    <script src="scripts/jquery-ui.js"></script>
+    <script src="scripts/canvasjs.min.js"></script>
+    <script src="scripts/leaflet.js"></script>
+    <script src="scripts/leaflet.hotline.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-        crossorigin=""></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <link id="colorSet" rel="stylesheet" type="text/css" href="css/color_set1.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 
 </head>
 
 <body>
-
     <div id="container">
-
         <header>
-            <h1>SOME LOGO</h1>
-            <input type="button" id="playButton">
-            <input type="button" id="revButton">
-            <div class="upload-btn-wrapper">
-                <button id="uploadFileButton" class="btn">UPLOAD A FILE</button>
-                <input id="uploadFile" type="file" name="myfile" />
+            <div id="logoContainer">
+                <img id="logo" alt="TRAX" src="images/trax.png">
+            </div>
+            <div id="uploadContainer">
+                <div id="uploadContainer2">
+                    <p id="uploadFileButton">UPLOAD GPX</p>
+                </div>
             </div>
         </header>
 
         <section>
-            <div id="mapid"></div>
+            <div id="mapid">
+                <div id="uploadImageContainer">
+                    <h1>UPLOAD GPX</h1>
+                </div>
+            </div>
         </section>
 
         <aside>
@@ -44,10 +49,10 @@
 
                     <div class="rowContainer">
                         <div class="gridContainer iconContainer">
-                            <img class="gridIcon" src="images/heartrate.png">
+                            <img id="heartRateIcon" alt="Heart rate" class="gridIcon" src="images/heartrate.png">
                         </div>
                         <div class="gridContainer valueContainer">
-                            <p id="heartRateLabel" class="gridItem">85</p>
+                            <p id="heartRateLabel" class="gridItem">-</p>
                         </div>
                         <div class="gridContainer unitContainer">
                             <p class="gridItem">BPM</p>
@@ -56,34 +61,34 @@
 
                     <div class="rowContainer">
                         <div class="gridContainer iconContainer">
-                            <img class="gridIcon" src="images/speed.png">
+                            <img id="speedIcon" alt="Speed" class="gridIcon" src="images/speed.png">
                         </div>
                         <div class="gridContainer valueContainer">
-                            <p id="speedLabel" class="gridItem">10</p>
+                            <p id="speedLabel" class="gridItem">-</p>
                         </div>
                         <div class="gridContainer unitContainer">
-                            <p class="gridItem">KM/H</p>
+                            <p class="gridItem">km/h</p>
                         </div>
                     </div>
 
                     <div class="rowContainer">
                         <div class="gridContainer iconContainer">
-                            <img class="gridIcon" src="images/pace.png">
+                            <img id="paceIcon" alt="Pace" class="gridIcon" src="images/pace.png">
                         </div>
                         <div class="gridContainer valueContainer">
-                            <p id="paceLabel" class="gridItem">06:00</p>
+                            <p id="paceLabel" class="gridItem">-</p>
                         </div>
                         <div class="gridContainer unitContainer">
-                            <p class="gridItem">m/KM</p>
+                            <p class="gridItem">m/km</p>
                         </div>
                     </div>
 
                     <div class="rowContainer">
                         <div class="gridContainer iconContainer">
-                            <img class="gridIcon" src="images/elevation.png">
+                            <img id="gradientIcon" alt="Gradient" class="gridIcon" src="images/elevation.png">
                         </div>
                         <div class="gridContainer valueContainer">
-                            <p id="inclineLabel" class="gridItem">5</p>
+                            <p id="gradientLabel" class="gridItem">-</p>
                         </div>
                         <div class="gridContainer unitContainer">
                             <p class="gridItem">&deg</p>
@@ -92,7 +97,111 @@
                 </div>
 
                 <div id="SUMMARY" class="tabcontent">
-                    Some info
+                    <div class="summaryRow">
+                        <div class="summaryTitleContainer">
+                            <p>Calories Burned</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="caloriesBurned">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>kcal</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div class="summaryTimeContainer">
+                            <p>Duration</p>
+                            <p id="duration">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>h:m:s</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div class="summaryTitleContainer">
+                            <p>Distance</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="distance">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>km</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div id="titleMaxSpeed" class="summaryTitleContainer clickableTitle">
+                            <p>Max Speed</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="maxSpeed">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>km/h</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div id="titleAverageSpeed" class="summaryTitleContainer clickableTitle">
+                            <p>Average Speed</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="averageSpeed">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>km/h</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div id="titleFastestPace" class="summaryTitleContainer clickableTitle">
+                            <p>Fastest Pace</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="minimumPace">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>m/km</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div id="titleAveragePace" class="summaryTitleContainer clickableTitle">
+                            <p>Average Pace</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="averagePace">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>m/km</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div id="titleTotalClimb" class="summaryTitleContainer clickableTitle">
+                            <p>Total Climb</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="totalClimb">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>meter</p>
+                        </div>
+                    </div>
+
+                    <div class="summaryRow">
+                        <div id="titleAverageGradient" class="summaryTitleContainer clickableTitle">
+                            <p>Average Gradient</p>
+                        </div>
+                        <div class=summaryValueContainer>
+                            <p id="averageGradient">-</p>
+                        </div>
+                        <div class=summaryUnitContainer>
+                            <p>&deg</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -101,12 +210,40 @@
 
         <div>
             <div class="slideContainer">
+                <div id="playButtonContainer">
+                    <img id="playButton" alt="Play button" src="images/play.png"></button>
+                </div>
+                <div id="speedSelectorContainer">
+                    <select id="speedSelector">
+                        <option value="1">&times1</option>
+                        <option value="2">&times2</option>
+                        <option value="4">&times4</option>
+                        <option value="8">&times8</option>
+                        <option value="16">&times16</option>
+                        <option value="32">&times32</option>
+                        <option value="64">&times64</option>
+                    </select>
+                </div>
                 <input class="slider" id="progressSlider" type="range" min="0" value="0">
             </div>
         </div>
+        <input id="uploadFile" type="file" name="myfile" accept=".gpx" />
     </div>
 
-    <script src="script.js"></script>
+    <div id="modal1" class="bg-modal">
+        <div id="chartContainer"></div>
+    </div>
+
+    <div id="modal2" class="bg-modal">
+        <div id="popupError">
+            <h2>Invalid GPX format.</h2>
+            <p id="okButton">OK</p>
+        </div>
+    </div>
+
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/route.js"></script>
+    <script src="scripts/script.js"></script>
 
 </body>
 
