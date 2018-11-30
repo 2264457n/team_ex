@@ -29,22 +29,18 @@ function updateStatus() {
 }
 
 function swapTab(evt, tabName) {
-    // Declare all variables
     var i, tabcontent, tablinks;
 
-    // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
     }
 
-    // Get all elements with class="tablinks" and remove the class "active"
     tablinks = document.getElementsByClassName("tablinks");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
 
-    // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "flex";
     evt.currentTarget.className += " active";
 }
@@ -182,17 +178,30 @@ $(document).ready(function () {
     document.getElementById("titleTotalClimb").onclick = gradientIcon.onclick;
     document.getElementById("titleAverageGradient").onclick = gradientIcon.onclick;
 
+    document.getElementById("okButton").onclick = function() {
+        loadingScreen.style.display = "none";
+        document.getElementById('mapid').style.display = 'flex';
+    }
+
     uploadFile.addEventListener('change', function () {
         var fr = new FileReader();
         fr.onload = function () {
-            route = new Route(this.result);
+            var newRoute;
+            try {
+                newRoute = new Route(this.result);
+            } catch(error) {
+                loadingScreen.style.display = "flex";
+                document.getElementById('mapid').style.display = 'none';
+                return;
+            }
+            route = newRoute;
 
             if (map != null) {
                 map.remove();
             }
 
             map = L.map('mapid');
-
+ 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
@@ -216,7 +225,8 @@ $(document).ready(function () {
             }
 
             document.getElementById("uploadFileButton").style.visibility = "visible";
-            document.getElementById('mapid').onclick = null;
+            var tempMap = document.getElementById('mapid');
+            tempMap.onclick = null;
 
             var element = document.getElementById("uploadImageContainer");
             if (element != null) element.parentNode.removeChild(element);

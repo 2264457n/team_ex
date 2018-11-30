@@ -8,8 +8,6 @@
     <script src="scripts/canvasjs.min.js"></script>
     <script src="scripts/leaflet.js"></script>
     <script src="scripts/leaflet.hotline.js"></script>
-    <!-- <script src="scripts/Chart.js"></script>
-    <script src="scripts/Chart.min.js"></script> -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
         crossorigin="" />
 
@@ -32,7 +30,7 @@
         </header>
 
         <section>
-            <div id="mapid" title="Upload a GPX file">
+            <div id="mapid">
                 <div id="uploadImageContainer">
                     <h1>UPLOAD GPX</h1>
                 </div>
@@ -237,7 +235,10 @@
     </div>
 
     <div id="modal2" class="bg-modal">
-        <img src="images/loading.png" alt="">
+        <div id="popupError">
+            <h2>Invalid GPX format.</h2>
+            <p id="okButton">OK</p>
+        </div>
     </div>
 
     <script src="scripts/utils.js"></script>

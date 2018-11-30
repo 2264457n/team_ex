@@ -319,4 +319,29 @@ footer{
     width: 76%; 
 }
 
+#popupError{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px solid black;
+    background-color: white;
+    text-align: center;
+    width: 36%;
+    height: 20%;
+}
+
+#popupError > h2{
+    font-size: 40px;
+}
+
+#okButton{
+    border: 1px solid black;
+    padding: 0 10px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: var(--unselected_tab);
+    cursor: pointer;
+}
+
 

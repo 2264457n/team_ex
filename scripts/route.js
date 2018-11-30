@@ -50,6 +50,15 @@ class Route {
         this.averageSpeed = this.totalDistance / (this.getSessionTime() / 3600);
     }
 
+    isValid() {
+        return this.points != null &&
+            this.lats != null &&
+            this.lons != null &&
+            this.elevations != null &&
+            this.times != null &&
+        this.heartRates != null;
+    }
+
     mapSecondToIndex() {
         var index = 0;
         var time = 0;
